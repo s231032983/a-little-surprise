@@ -122,10 +122,6 @@
     .memory-card:hover img { transform: scale(1.06); }
     .memory-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(15,8,20,.7)); pointer-events: none; }
     .memory-card figcaption { position: absolute; z-index: 1; bottom: 13px; left: 15px; color: #fff; font: 500 1.2rem 'Caveat', cursive; }
-    .memory-upload { display: flex; justify-content: center; margin: 18px 0 0; }
-    .upload-label { padding: 11px 17px; border: 1px solid rgba(255,217,226,.3); border-radius: 99px; color: var(--blush); cursor: pointer; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: background .2s, border-color .2s; }
-    .upload-label:hover { background: rgba(255,255,255,.09); border-color: var(--rose); }
-    #photoUpload { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     .paper {
       position: relative; padding: clamp(32px, 7vw, 72px) clamp(25px, 8vw, 78px);
       background: var(--paper); box-shadow: 0 25px 80px rgba(0,0,0,.3); transform: rotate(-.7deg);
@@ -203,7 +199,6 @@
         <figure class="memory-card"><figcaption>My favourite person</figcaption></figure>
         <figure class="memory-card"><figcaption>To more memories</figcaption></figure>
       </div>
-      <div class="memory-upload"><label class="upload-label" for="photoUpload">+ Tambah gambar kenangan</label><input id="photoUpload" type="file" accept="image/*" multiple></div>
       <article class="paper">
         <small>Untuk insan kegemaran saya</small>
         <h2 class="letter-title" id="letter-title">Nur Afiqah,</h2>
@@ -236,8 +231,6 @@
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
     const proposalResult = document.getElementById('proposalResult');
-    const photoUpload = document.getElementById('photoUpload');
-    const memoryGallery = document.getElementById('memoryGallery');
     let typingTimer;
 
     for (let i = 0; i < 70; i++) {
@@ -285,21 +278,6 @@
       typeMessage();
     });
     replayButton.addEventListener('click', typeMessage);
-
-    photoUpload.addEventListener('change', (event) => {
-      [...event.target.files].slice(0, 12).forEach((file, index) => {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => {
-          const card = memoryGallery.children[index];
-          if (!card) return;
-          const image = document.createElement('img');
-          image.src = reader.result;
-          image.alt = `Kenangan ${index + 1}`;
-          card.prepend(image);
-        });
-        reader.readAsDataURL(file);
-      });
-    });
 
     function dodgeNoButton() {
       const maxX = Math.max(0, proposalActions.clientWidth - noButton.offsetWidth);
